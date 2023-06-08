@@ -1,13 +1,21 @@
 from rest_framework import serializers
-from wishlists.models import Wishlist
+from django.contrib.auth.models import User
+from wishlists.models import Wishlist, ListBook
+from rest_framework.renderers import JSONRenderer
 
-class WishlistSerializer(serializers.Serializer):
-    user = serializers.user()
-    listbooks = serializers.Books()
-    listname = serializers.CharField(max_length=255)
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['url', 'username', 'email', 'groups']
 
-class ListBookSerializer(serializers.Serializer):
-    title = serializers.Books()
+class WishlistSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Wishlist
+        fields = ['url', 'owner', 'title', 'listbooks']
 
-def create(self, listname):
-    return Wishlists.objects.create(**listname)
+class ListBookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ListBook
+        fields = ['url', 'title', 'author']
+        
+
