@@ -13,13 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+#from django.contrib import admin
+from django.urls import path
+from .views import BookListView #view that allows user to view all books within db
+from .views import BookCreateView #view that will allow user to input new books
+
+app_name = 'bookdetails'
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('shoppingcart.urls')),
-    path('bookdetails/', include('bookdetails.urls'))
+    path('books/', BookListView.as_view(), name='book-list'),
+    path('books/create/', BookCreateView.as_view(), name='create_book'),
+   
 ]
 
 
