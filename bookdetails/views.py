@@ -12,14 +12,15 @@ from .serializers import BookSerializer
 
 # Create your views here.
 
-#handles get request that will allow user to view all books within created database
+#below code allows user to get request that will allow user to view all books within db
 
 class BookListView(APIView):
     def get(self, request): #will output all books within database
         books = Book.objects.all()
         serializer = BookSerializer(books, many = True)
         return Response(serializer.data)
-    
+
+#below code allows user to post request that will allow user to add books within db    
 class BookCreateView(APIView):
     def post(self, request): # will allow admin to add books within db
         serializer = BookSerializer(data=request.data)
@@ -29,3 +30,16 @@ class BookCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         #following code will return if request encounters an error
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#below code will allow user to get book info by isbn number within db
+
+class BookInfoView(APIView):
+    def get(self, request, isbn): #will allow user to get book info with isbn request
+        try:
+            book = Book.objects.get(isbn=isbn)
+            serializer = BookSerializer(book)
+            return Response(serializer.data) #will provide output to request
+        except Book.DoesNotExist:
+            #following code will return if request can not be found
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        

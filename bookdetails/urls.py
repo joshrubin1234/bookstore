@@ -17,6 +17,7 @@ Including another URLconf
 from django.urls import path
 from .views import BookListView #view that allows user to view all books within db
 from .views import BookCreateView #view that will allow user to input new books
+from .views import BookInfoView #view that will allow user to get all book by isbn within db
 
 app_name = 'bookdetails'
 
@@ -24,7 +25,7 @@ app_name = 'bookdetails'
 urlpatterns = [
     path('books/', BookListView.as_view(), name='book-list'),
     path('books/create/', BookCreateView.as_view(), name='create_book'),
-   
+    path('books/<str:isbn>/', BookInfoView.as_view(), name='detail-book'),
 ]
 
 
