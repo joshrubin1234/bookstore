@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from .models import Wishlist, ListBook
+from .models import Wishlist, Book
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -16,16 +16,16 @@ class WishlistViewset(viewsets.ModelViewSet):
     serializer_class = WishlistSerializer
 
 class ListBookViewset(viewsets.ModelViewSet):
-    queryset = ListBook.objects.all()
+    queryset = Book.objects.all()
     serializer_class = ListBookSerializer
 
 class ListbookItemViewset(viewsets.ModelViewSet):
-    queryset = ListBook.objects.all()
+    queryset = Book.objects.all()
     serializer_class = ListBookSerializer
 
     @api_view()
     def get_queryset(reqtitle):
-        queryset = ListBook.objects.filter(title=reqtitle)
+        queryset = Book.objects.filter(title=reqtitle)
         serializer_class = ListBookSerializer(queryset, many=True)
         return JsonResponse(seralizer.data)
 
