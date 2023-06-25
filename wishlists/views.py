@@ -2,6 +2,7 @@ from .models import Wishlist, Book
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from wishlists.serializers import WishlistSerializer, ListBookSerializer, UserSerializer
@@ -29,13 +30,13 @@ class ListbookItemViewset(viewsets.ModelViewSet):
         return Response(serialized_data)
 
 class WishlistCreation(APIView):
-    def post(self, request):
-        list = request.data.get('title')
-        serializer = WishlistSerializer(data=list)
-        if serializer.is_valid(raise_exception=True):
-            list_saved = serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+    def post(self, request, username):
+        owner = User.objects.get(username=username)
+        serializer = WishlistSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
     
