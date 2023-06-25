@@ -1,17 +1,11 @@
 from django.db import models
 from django.conf import settings
-
-class ListBook(models.Model):
-    title = models.CharField(max_length=255)
-    author = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.title
+from bookdetails.models import Book
 
 class Wishlist(models.Model):
     title = models.CharField(max_length=255)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null= True, on_delete=models.SET_NULL, default=0)
-    listbooks = models.ManyToManyField(ListBook)
+    Books = models.ManyToManyField(Book)
 
     def __str__(self):
         return self.title
