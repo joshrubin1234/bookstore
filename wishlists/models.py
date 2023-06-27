@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Wishlist(models.Model):
     title = models.CharField(max_length=255)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     Books = models.ManyToManyField(Book, blank=True)
 
     def __str__(self):
