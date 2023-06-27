@@ -56,3 +56,16 @@ class AuthorCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         #code will return an error msg if unable to requset sucessfully 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+#below code will allow admin to retrieve books associated with certain authors with author ID
+
+class AuthorBookView(APIView):
+    def get(self, request, author_id):
+        try:
+            author = Author.objects.get(id= author_id)
+            book = Book.objects.filter(author= author)
+            serializer = BookSerializer(book, many=True)
+            return Response(serializer.data) #will provide out to request
+        except Author.DoesNotExist:
+            #code will execute if author is not/can't be found within database
+            return Response({'Error 404: Author not listed in database'}, status=status.HTTP_404_NOT_FOUND)
