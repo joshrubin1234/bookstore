@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'shoppingcart',
     'wishlists',
-    'bookdetails'
+    'bookdetails',
+    'ProfileManagement',
 ]
 
 MIDDLEWARE = [
