@@ -17,13 +17,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from ProfileManagement.views import create_user
-from ProfileManagement.views import get_user_list, get_user_details
+from ProfileManagement.views import get_user_list
+from ProfileManagement.views import get_user_details
+from ProfileManagement.views import update_user
+from ProfileManagement.views import partial_update_user
+from ProfileManagement.views import create_credit_card
+from ProfileManagement.views import get_user_credit_cards
 
 app_name = 'ProfileManagement'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/users/create', create_user, name='create_user'),
-    path('api/users/', get_user_list, name='get_user_list'),
-    path('api/users/<str:username>', get_user_details, name='get_user_details'),
+    path('admin/', admin.site.urls),# main page
+    path('api/users/create', create_user, name='create_user'),#creates user
+    path('api/users/', get_user_list, name='get_user_list'),#retrieves list of all the users created
+    path('api/users/<str:username>', get_user_details, name='get_user_details'),#retrieves the user details of a specific user
+    path('api/users/<str:username>/update', update_user, name='update_user'),#able to update all the fields of a user except email
+    path('api/users/<str:username>/partial-update', partial_update_user, name='partial_update_user'),#able to update some of the fields of a user except email
+    path('api/users/<str:username>/credit-cards/create', create_credit_card, name='create_credit_card'),#creates a credit card for a users account
+    path('api/users/<str:username>/credit-cards/', get_user_credit_cards, name='get_user_credit_cards'),#shows the credit card created for a users account
+
+
 ]
+
+
