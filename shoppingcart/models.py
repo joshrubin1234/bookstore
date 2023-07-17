@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.db.models import Sum, F
+from ProfileManagement.models import User
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -11,7 +12,7 @@ class Book(models.Model):
         return self.title
 
 class ShoppingCart(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null= False, blank = True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username
