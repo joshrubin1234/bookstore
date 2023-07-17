@@ -42,16 +42,6 @@ def TopSellersView(request):
     serializer = BookSerializer(books, many=True)
     return Response(serializer.data, status=200)
 
-@api_view(['GET'])
-def RatingView(request):
-    rating = request.GET.get('rating')
-    if rating is not None:
-        books = Book.objects.filter(rating__gte=rating)
-        serializer = BookSerializer(books, many=True)
-        return Response(serializer.data, status=200)
-    else:
-        return Response({'error': 'Rating parameter is missing.'}, status=400)
-
 @api_view(['PUT','PATCH'])
 def DiscountedBooks(request):
     data = request.data
@@ -62,4 +52,16 @@ def DiscountedBooks(request):
         return Response({}, status=200)
     else:
         return Response({'error': 'Discount percent or publisher parameter is missing.'}, status=400)
+    
+@api_view(['GET'])
+def RatingView(request):
+    rating = request.GET.get('rating')
+    if rating is not None:
+        books = Book.objects.filter(rating__gte=rating)
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data, status=200)
+    else:
+        return Response({'error': 'Rating parameter is missing.'}, status=400)
+
+
     
