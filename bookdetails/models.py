@@ -11,7 +11,9 @@ class Author(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
 #book db created with the following parameters
+
 class Book(models.Model):
     isbn = models.CharField(max_length=13)
     title = models.CharField(max_length=250)
