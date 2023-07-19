@@ -5,13 +5,8 @@ from ProfileManagement.models import User
 
 class Wishlist(models.Model):
     title = models.CharField(max_length=255)
-    owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, null=False, blank=True, on_delete=models.CASCADE)
     Books = models.ManyToManyField(Book, blank=True)
 
     def __str__(self):
         return self.title
-
-        
-
-
-

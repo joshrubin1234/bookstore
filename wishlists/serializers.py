@@ -8,14 +8,15 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['url', 'username', 'email', 'groups',]
 
 class WishlistSerializer(serializers.ModelSerializer):
+
     Books = serializers.SlugRelatedField(
         many=True,
         read_only=True,
         slug_field='title'
     )
     owner = serializers.SlugRelatedField(
-        read_only=True,
-        slug_field='username'
+        slug_field='username',
+        queryset=User.objects.all()
     )
 
     class Meta:
