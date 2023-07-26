@@ -1,15 +1,9 @@
+from hmac import new
 from django.db import models
 from django.conf import settings
 from django.db.models import Sum, F
 from ProfileManagement.models import User
-
-class Book(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=5, decimal_places=2)
-
-    def __str__(self):
-        return self.title
+from bookdetails.models import Book
 
 class ShoppingCart(models.Model):
     user = models.OneToOneField(User, null= False, blank = True, on_delete=models.CASCADE)

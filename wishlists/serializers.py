@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from ProfileManagement.models import User
-from wishlists.models import Wishlist, Book
+from wishlists.models import Wishlist
+from bookdetails.models import Book
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,13 +11,15 @@ class UserSerializer(serializers.ModelSerializer):
 class WishlistSerializer(serializers.ModelSerializer):
 
     Books = serializers.SlugRelatedField(
+        queryset=Book.objects.all(),
+        required=False,
         many=True,
-        read_only=True,
         slug_field='title'
     )
+    
     owner = serializers.SlugRelatedField(
-        slug_field='username',
-        queryset=User.objects.all()
+        queryset=User.objects.all(),
+        slug_field='username'
     )
 
     class Meta:

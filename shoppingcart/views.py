@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.urls import is_valid_path
 from rest_framework import viewsets
 from rest_framework.response import Response
+
+from ratings import serializers
 from .models import ShoppingCart, ShoppingCartItem
 from .serializers import ShoppingCartSerializer, ShoppingCartItemSerializer
 from rest_framework import permissions
@@ -9,7 +12,6 @@ from .models import Book
 from .serializers import BookSerializer
 from rest_framework.decorators import action
 from rest_framework import status
-
 
 # Create your views here.
 
@@ -19,8 +21,7 @@ class IsAuthenticatedOrReadOnly(permissions.BasePermission):
             return True
         return request.user and request.user.is_authenticated
     
-class ShoppingCartViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+class ShoppingCartViewSet(viewsets.ViewSet): 
     serializer_class = ShoppingCartSerializer
     queryset = ShoppingCart.objects.all()
     def list(self, request):
@@ -51,6 +52,12 @@ class ShoppingCartItemViewSet(viewsets.ModelViewSet):
             cart = ShoppingCart.objects.get(user=self.request.user)
             return ShoppingCartItem.objects.filter(shopping_cart=cart)
         return ShoppingCartItem.objects.none() 
+    
+    def create(user, book):
+        serializer = ShoppingCartItemSerializer(data={user, book})
+        cart, _ = ShoppingCart.objects.get_or_create(user=user)
+        if serializer.is_valid():
+            serializer.save(shopping_cart=cart)
 
     def perform_create(self, serializer):
         user = self.request.user

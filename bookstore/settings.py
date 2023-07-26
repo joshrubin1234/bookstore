@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'wishlists',
     'bookdetails',
     'ProfileManagement',
+    'ratings'
 ]
 
 MIDDLEWARE = [
